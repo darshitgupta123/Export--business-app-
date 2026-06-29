@@ -4,16 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Export Business A to Z</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 { color: #2c3e50; }
+        .checklist-item {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+        }
+        input[type="checkbox"] {
+            margin-right: 12px;
+            width: 18px;
+            height: 18px;
+        }
+        label { font-size: 16px; color: #34495e; }
+    </style>
 </head>
 <body>
 
-    <h1>Welcome to the Export Business Guide</h1>
-    <p>This app will help you start your international trade journey from A to Z.</p>
+    <div class="card">
+        <h1>Export Business Setup</h1>
+        <p>Complete these initial steps to make your business export-ready:</p>
+        
+        <div class="checklist-item">
+            <input type="checkbox" id="step1">
+            <label for="step1">Register your Business/Company legally</label>
+        </div>
 
-    <h2>Step 1: Check Your Readiness</h2>
-    <button onclick="alert('Great job! You clicked the button. We will build a checklist here next!')">
-        Click to Start
-    </button>
+        <div class="checklist-item">
+            <input type="checkbox" id="step2">
+            <label for="step2">Open a Bank Account dedicated to business</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="step3">
+            <label for="step3">Obtain an Export License / Tax ID Number</label>
+        </div>
+
+        <div class="checklist-item">
+            <input type="checkbox" id="step4">
+            <label for="step4">Find your product's HS Code (Harmonized System)</label>
+        </div>
+    </div>
 
 </body>
 </html>
