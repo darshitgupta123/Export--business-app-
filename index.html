@@ -153,20 +153,59 @@
             </div>
         </div>
         
-        
-        <!-- View 2: GST & Taxes (NEW!) -->
+                <!-- View 2: GST & Taxes (Upgraded with 4 Actionable Points & Calculator) -->
         <div id="gst" class="dashboard-view">
             <h1>GST & Tax Rules for Exporters</h1>
-            <p>Exporting is highly incentivized. Governments want you to export, so they treat international sales as <strong>"Zero-Rated Supplies"</strong>. This means you do not pay domestic tax on goods sent out of the country.</p>
+            <p>Exporting is highly incentivized. Governments treat international sales as <strong>"Zero-Rated Supplies"</strong>, meaning you do not pay domestic tax on goods sent out of the country.</p>
             
+            <!-- Point 1 -->
             <div class="info-box success">
-                <span class="box-title">Option A: Export Under LUT (Letter of Undertaking)</span>
-                <p>The most common method. You file a free document called an LUT online once a year. This allows you to ship goods across borders completely tax-free without blocking your working capital.</p>
+                <span class="box-title">1. Export Under LUT (Letter of Undertaking)</span>
+                <p>The most common method. You file a free document called an LUT online once a year. This allows you to ship goods across borders completely tax-free without blocking your working capital. <a href="https://www.gst.gov.in/" target="_blank" style="color: #3498db; font-weight: bold; text-decoration: underline;">Click here to file your LUT on the GST Portal.</a></p>
             </div>
 
+            <!-- Point 2 -->
             <div class="info-box">
-                <span class="box-title">Option B: Export With IGST Payment</span>
-                <p>You pay the integrated tax upfront when shipping, and then claim a 100% refund from the government customs portal once the boat/plane leaves. Great if you want to clear input tax credits quickly.</p>
+                <span class="box-title">2. Export With IGST Payment & Refund</span>
+                <p>You pay the integrated tax upfront when shipping, and then claim a 100% refund from the government customs portal once the vessel leaves. Great if you want to clear accumulated input tax credits quickly. <a href="https://www.icegate.gov.in/" target="_blank" style="color: #3498db; font-weight: bold; text-decoration: underline;">Click here to track your IGST Customs Refunds.</a></p>
+            </div>
+
+            <!-- Point 3 -->
+            <div class="info-box warning">
+                <span class="box-title">3. Verify Your Product's GST Rate</span>
+                <p>Different commodities attract different tax percentages (0%, 5%, 12%, 18%, or 28%). You must align your product's HS code with the correct tax schedule to prevent processing penalties. <a href="https://cbic-gst.gov.in/" target="_blank" style="color: #3498db; font-weight: bold; text-decoration: underline;">Click here to check the official CBIC Tax Rate finder.</a></p>
+            </div>
+
+            <!-- Point 4 -->
+            <div class="info-box">
+                <span class="box-title">4. Claim Input Tax Credit (ITC) on Raw Materials</span>
+                <p>Even if your final export is tax-free, you paid local taxes on your packaging, raw components, or manufacturing. You can legally claim a cash refund for those domestic business expenses. <a href="https://www.gst.gov.in/" target="_blank" style="color: #3498db; font-weight: bold; text-decoration: underline;">Click here to file an ITC Refund Application.</a></p>
+            </div>
+
+            <!-- Interactive Tax & Refund Estimator Tool -->
+            <div style="margin-top: 30px; padding: 20px; border: 1px solid #dcdde1; border-radius: 6px; background: #f8f9fa;">
+                <h3 style="margin-bottom: 15px; color: #2c3e50;">🧮 Export GST & Refund Estimator</h3>
+                
+                <div class="form-group">
+                    <label>Total Value of Goods to Export ($ USD):</label>
+                    <input type="number" id="gstExportValue" placeholder="e.g., 5000" oninput="calculateGstRefund()">
+                </div>
+
+                <div class="form-group">
+                    <label>Domestic Input Material Costs Paid (with local GST, in $ USD):</label>
+                    <input type="number" id="gstInputCost" placeholder="e.g., 2000" oninput="calculateGstRefund()">
+                </div>
+
+                <div class="form-group">
+                    <label>Your Product's Standard Tax Rate (%):</label>
+                    <input type="number" id="gstRate" placeholder="e.g., 18" value="18" oninput="calculateGstRefund()">
+                </div>
+
+                <div id="gstResultBox" style="margin-top: 15px; padding: 15px; background: white; border-radius: 4px; border-left: 4px solid #2ecc71; display: none;">
+                    <p style="margin: 5px 0;"><strong>Estimated Tax Saved via LUT:</strong> <span id="lutSaved" style="color: #2ecc71; font-weight: bold;">$0</span></p>
+                    <p style="margin: 5px 0;"><strong>Input Tax Credit (ITC) Refundable:</strong> <span id="itcRefund" style="color: #3498db; font-weight: bold;">$0</span></p>
+                    <small style="color: #7f8c8d; display: block; margin-top: 10px;">*Note: Calculations are estimates based on standard zero-rated supply rules.*</small>
+                </div>
             </div>
         </div>
 
@@ -220,7 +259,24 @@
             document.getElementById(viewId).classList.add('active');
             clickedButton.classList.add('active');
         }
+        function calculateGstRefund() {
+            var exportVal = parseFloat(document.getElementById('gstExportValue').value) || 0;
+            var inputCost = parseFloat(document.getElementById('gstInputCost').value) || 0;
+            var taxRate = parseFloat(document.getElementById('gstRate').value) || 0;
 
+            if(exportVal === 0 && inputCost === 0) {
+                document.getElementById('gstResultBox').style.display = 'none';
+                return;
+            }
+
+            var savedViaLut = exportVal * (taxRate / 100);
+            var refundableItc = inputCost * (taxRate / 100);
+
+            document.getElementById('lutSaved').innerText = '$' + savedViaLut.toFixed(2) + ' USD';
+            document.getElementById('itcRefund').innerText = '$' + refundableItc.toFixed(2) + ' USD';
+            document.getElementById('gstResultBox').style.display = 'block';
+                }
+                
         function generateInvoice() {
             var exp = document.getElementById('exporter').value;
             var imp = document.getElementById('importer').value;
