@@ -181,18 +181,30 @@
                 <span class="box-title">4. Claim Input Tax Credit (ITC) on Raw Materials</span>
                 <p>Even if your final export is tax-free, you paid local taxes on your packaging, raw components, or manufacturing. You can legally claim a cash refund for those domestic business expenses. <a href="https://www.gst.gov.in/" target="_blank" style="color: #3498db; font-weight: bold; text-decoration: underline;">Click here to file an ITC Refund Application.</a></p>
             </div>
-
+           
             <!-- Interactive Tax & Refund Estimator Tool -->
             <div style="margin-top: 30px; padding: 20px; border: 1px solid #dcdde1; border-radius: 6px; background: #f8f9fa;">
                 <h3 style="margin-bottom: 15px; color: #2c3e50;">🧮 Export GST & Refund Estimator</h3>
                 
+                <!-- NEW: Currency Selector Dropdown -->
                 <div class="form-group">
-                    <label>Total Value of Goods to Export ($ USD):</label>
+                    <label>Select Currency:</label>
+                    <select id="gstCurrency" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-weight: bold; background: white;" onchange="calculateGstRefund()">
+                        <option value="₹">INR (₹) - India</option>
+                        <option value="$">USD ($) - US Dollar</option>
+                        <option value="€">EUR (€) - Euro</option>
+                        <option value="£">GBP (£) - British Pound</option>
+                        <option value="د.إ">AED (د.إ) - UAE Dirham</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Total Value of Goods to Export:</label>
                     <input type="number" id="gstExportValue" placeholder="e.g., 5000" oninput="calculateGstRefund()">
                 </div>
 
                 <div class="form-group">
-                    <label>Domestic Input Material Costs Paid (with local GST, in $ USD):</label>
+                    <label>Domestic Input Material Costs Paid (with local GST):</label>
                     <input type="number" id="gstInputCost" placeholder="e.g., 2000" oninput="calculateGstRefund()">
                 </div>
 
@@ -202,12 +214,11 @@
                 </div>
 
                 <div id="gstResultBox" style="margin-top: 15px; padding: 15px; background: white; border-radius: 4px; border-left: 4px solid #2ecc71; display: none;">
-                    <p style="margin: 5px 0;"><strong>Estimated Tax Saved via LUT:</strong> <span id="lutSaved" style="color: #2ecc71; font-weight: bold;">$0</span></p>
-                    <p style="margin: 5px 0;"><strong>Input Tax Credit (ITC) Refundable:</strong> <span id="itcRefund" style="color: #3498db; font-weight: bold;">$0</span></p>
+                    <p style="margin: 5px 0;"><strong>Estimated Tax Saved via LUT:</strong> <span id="lutSaved" style="color: #2ecc71; font-weight: bold;">0</span></p>
+                    <p style="margin: 5px 0;"><strong>Input Tax Credit (ITC) Refundable:</strong> <span id="itcRefund" style="color: #3498db; font-weight: bold;">0</span></p>
                     <small style="color: #7f8c8d; display: block; margin-top: 10px;">*Note: Calculations are estimates based on standard zero-rated supply rules.*</small>
                 </div>
             </div>
-        </div>
 
         <!-- View 3: Invoice Generator -->
         <div id="invoice" class="dashboard-view">
