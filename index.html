@@ -216,8 +216,8 @@
             </div>
         </div>
 
-        <!-- View 3: Commercial Invoice Generator (Dynamic Multi-Item) -->
-        <div id="invoice" class="dashboard-view">
+                <!-- View 3: Commercial Invoice Generator (Complete & Compliant) -->
+                <div id="invoice" class="dashboard-view">
             <h1>Commercial Invoice Generator</h1>
             <p>Fill out the fields below to create a customs-compliant commercial invoice:</p>
 
@@ -244,8 +244,30 @@
 
             <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
 
+            <h3>🏦 Payment & Bank Details</h3>
+            <div class="form-group">
+                <label>Select Bank:</label>
+                <select id="bankName" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; background: white;">
+                    <option value="">-- Choose Corporate Bank --</option>
+                    <option value="State Bank of India">State Bank of India (SBI)</option>
+                    <option value="HDFC Bank">HDFC Bank</option>
+                    <option value="ICICI Bank">ICICI Bank</option>
+                    <option value="Axis Bank">Axis Bank</option>
+                    <option value="Punjab National Bank">Punjab National Bank (PNB)</option>
+                    <option value="Bank of Baroda">Bank of Baroda</option>
+                </select>
+            </div>
+            <div class="form-group"><label>Account Number / IBAN:</label><input type="password" id="bankAcc" placeholder="Enter business account number"></div>
+            <div class="form-group"><label>Confirm Account Number:</label><input type="text" id="bankAccConfirm" placeholder="Re-enter business account number"></div>
+            <div class="form-group">
+                <label>IFSC / SWIFT Code:</label>
+                <input type="text" id="bankSwift" placeholder="e.g., SBIN0001234">
+                <small style="display: block; margin-top: 5px;"><a href="https://www.rbi.org.in/" target="_blank" style="color: #3498db; text-decoration: underline; font-weight: bold;">Find official IFSC codes via RBI directory</a></small>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
             <h3>📦 Description of Goods</h3>
-            <!-- Container where rows will be added dynamically -->
             <div id="invoiceItemsContainer">
                 <div class="invoice-item-row" style="background: #f8f9fa; padding: 15px; border-radius: 4px; margin-bottom: 12px; border: 1px solid #e2e8f0; position: relative;">
                     <div class="form-group"><label>Description of Goods:</label><input type="text" class="item-desc" placeholder="Detailed description of item"></div>
@@ -254,14 +276,12 @@
                 </div>
             </div>
 
-            <!-- Add Row Button -->
             <button type="button" class="action-btn" style="background-color: #34495e; margin-bottom: 20px; font-size: 14px;" onclick="addInvoiceItemRow()">➕ Add Another Item</button>
             <br>
             
             <button class="action-btn" onclick="generateInvoice()">Generate Commercial Invoice</button>
             <div id="invoiceResult" class="invoice-preview" style="display:none;"></div>
-        </div>
-
+                </div>
         
         <!-- View 4: Incoterms -->
         <div id="incoterms" class="dashboard-view">
@@ -324,21 +344,7 @@
             document.getElementById('gstResultBox').style.display = 'block';
         }
          
-        function addInvoiceItemRow() {
-            var container = document.getElementById('invoiceItemsContainer');
-            var newRow = document.createElement('div');
-            newRow.className = 'invoice-item-row';
-            newRow.style = "background: #f8f9fa; padding: 15px; border-radius: 4px; margin-bottom: 12px; border: 1px solid #e2e8f0; position: relative;";
-            newRow.innerHTML = `
-                <div class="form-group"><label>Description of Goods:</label><input type="text" class="item-desc" placeholder="Detailed description of item"></div>
-                <div class="form-group"><label>8-Digit HS Code (Numbers Only):</label><input type="number" class="item-hs" placeholder="e.g., 62044200"></div>
-                <div class="form-group"><label>Item Value (USD $):</label><input type="number" class="item-val" placeholder="0.00"></div>
-                <button type="button" style="background: #e74c3c; color: white; border: none; border-radius: 4px; padding: 5px 10px; cursor: pointer; font-size: 12px; position: absolute; top: 10px; right: 10px;" onclick="this.parentElement.remove()">❌ Remove</button>
-            `;
-            container.appendChild(newRow);
-        }
-
-        function generateInvoice() {
+         function generateInvoice() {
             var num = document.getElementById('invNum').value;
             var date = document.getElementById('invDate').value;
             var expName = document.getElementById('expName').value;
@@ -346,13 +352,23 @@
             var impName = document.getElementById('impName').value;
             var impAddr = document.getElementById('impAddr').value;
             var inco = document.getElementById('invIncoterm').value;
+            
+            var bName = document.getElementById('bankName').value;
+            var bAcc = document.getElementById('bankAcc').value;
+            var bAccConf = document.getElementById('bankAccConfirm').value;
+            var bSwift = document.getElementById('bankSwift').value;
 
-            if(!num || !date || !expName || !expAddr || !impName || !impAddr) {
-                alert("Please complete core party and invoice details first!");
+            // Strict Validation Checkpoints
+            if(!num || !date || !expName || !expAddr || !impName || !impAddr || !bName || !bAcc || !bSwift) {
+                alert("Please complete all party, invoice, and bank details!");
                 return;
             }
 
-            // Target all dynamic rows added to the form
+            if(bAcc !== bAccConf) {
+                alert("Account verification failed! The Account Number fields do not match.");
+                return;
+            }
+
             var rows = document.querySelectorAll('.invoice-item-row');
             var tableRows = '';
             var totalVal = 0;
@@ -413,7 +429,8 @@
                         </td>
                     </tr>
                 </table>
-                <table style="width: 100%; border: 1px solid #bdc3c7; border-collapse: collapse; font-size: 13px; text-align: left;">
+
+                <table style="width: 100%; border: 1px solid #bdc3c7; border-collapse: collapse; font-size: 13px; text-align: left; margin-bottom: 15px;">
                     <thead>
                         <tr style="background: #f8f9fa; border-bottom: 1px solid #bdc3c7;">
                             <th style="padding: 8px;">Description of Goods</th>
@@ -429,6 +446,23 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <table style="width: 100%; font-size: 12px; background: #fdfefe; border: 1px dashed #bdc3c7; padding: 10px; margin-bottom: 15px;">
+                    <tr>
+                        <td>
+                            <strong>🏦 Wire Transfer Payment Instructions:</strong><br>
+                            Bank Name: ${bName} | Account/IBAN: ${bAcc} | SWIFT/IFSC: ${bSwift}
+                        </td>
+                    </tr>
+                </table>
+
+                <div style="font-size: 11px; color: #555; font-style: italic; margin-bottom: 25px;">
+                    "We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct."
+                    <div style="margin-top: 20px; text-align: right;">
+                        <span style="border-top: 1px solid #333; padding-top: 5px; display: inline-block; width: 200px; text-align: center;">Authorized Signatory</span>
+                    </div>
+                </div>
+
                 <div style="margin-top: 15px; text-align: right; display: flex; justify-content: flex-end; gap: 10px;">
                     <button class="action-btn" style="background-color: #2ecc71; font-size: 14px; padding: 8px 16px;" onclick="window.print()">🖨️ Print Invoice</button>
                     <a href="https://payment.gst.gov.in/" target="_blank" class="action-btn" style="background-color: #e67e22; font-size: 14px; padding: 8px 16px; text-decoration: none; display: inline-block; border-radius: 4px; color: white; font-weight: bold;">🌐 Register Invoice (GST Portal)</a>
@@ -436,7 +470,7 @@
             `;
             resultDiv.style.display = 'block';
         }
-        
+
         
     </script>
 </body>
