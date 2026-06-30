@@ -271,7 +271,14 @@
             document.getElementById(viewId).classList.add('active');
             clickedButton.classList.add('active');
         }
-        function calculateGstRefund() {
+                function calculateGstRefund() {
+            var currencySelect = document.getElementById('gstCurrency');
+            var currencySymbol = currencySelect.value;
+            
+            // This grabs the custom data-code (like INR, EUR, etc.) from the selected option
+            var selectedOption = currencySelect.options[currencySelect.selectedIndex];
+            var currencyCode = selectedOption.getAttribute('data-code') || 'USD';
+
             var exportVal = parseFloat(document.getElementById('gstExportValue').value) || 0;
             var inputCost = parseFloat(document.getElementById('gstInputCost').value) || 0;
             var taxRate = parseFloat(document.getElementById('gstRate').value) || 0;
@@ -284,10 +291,12 @@
             var savedViaLut = exportVal * (taxRate / 100);
             var refundableItc = inputCost * (taxRate / 100);
 
-            document.getElementById('lutSaved').innerText = '$' + savedViaLut.toFixed(2) + ' USD';
-            document.getElementById('itcRefund').innerText = '$' + refundableItc.toFixed(2) + ' USD';
+            // Now displays the correct symbol and matching currency code text dynamically
+            document.getElementById('lutSaved').innerText = currencySymbol + ' ' + savedViaLut.toFixed(2) + ' ' + currencyCode;
+            document.getElementById('itcRefund').innerText = currencySymbol + ' ' + refundableItc.toFixed(2) + ' ' + currencyCode;
             document.getElementById('gstResultBox').style.display = 'block';
-                }
+        }
+
                 
         function generateInvoice() {
             var exp = document.getElementById('exporter').value;
