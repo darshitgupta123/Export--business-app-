@@ -62,14 +62,14 @@
         .dashboard-view {
             display: none; /* Hidden by default, toggled via JS */
             background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-            max-width: 700px;
-        }
-        .dashboard-view.active {
-            display: block;
-        }
+                    <div id="checklist" class="dashboard-view active">
+            <h1>Business Setup Checklist</h1>
+            <p>Complete these initial steps to make your business export-ready:</p>
+            <div class="checklist-item"><input type="checkbox" id="step1"><label for="step1">Register your Business Legally</label></div>
+            <div class="checklist-item"><input type="checkbox" id="step2"><label for="step2">Open a Business Bank Account</label></div>
+            <div class="checklist-item"><input type="checkbox" id="step3"><label for="step3">Obtain an Export License / Tax ID</label></div>
+            <div class="checklist-item"><input type="checkbox" id="step4"><label for="step4">Find your product's HS Code</label></div>
+        </div>
 
         /* UI Elements Styles */
         h1, h3 { color: #2c3e50; margin-top: 0; }
