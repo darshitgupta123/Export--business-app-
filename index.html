@@ -189,13 +189,14 @@
                 <!-- NEW: Currency Selector Dropdown -->
                 <div class="form-group">
                     <label>Select Currency:</label>
-                    <select id="gstCurrency" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-weight: bold; background: white;" onchange="calculateGstRefund()">
-                        <option value="₹">INR (₹) - India</option>
-                        <option value="$">USD ($) - US Dollar</option>
-                        <option value="€">EUR (€) - Euro</option>
-                        <option value="£">GBP (£) - British Pound</option>
-                        <option value="د.إ">AED (د.إ) - UAE Dirham</option>
+                     <select id="gstCurrency" style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-weight: bold; background: white;" onchange="calculateGstRefund()">
+                        <option value="₹" data-code="INR">INR (₹) - India</option>
+                        <option value="$" data-code="USD">USD ($) - US Dollar</option>
+                        <option value="€" data-code="EUR">EUR (€) - Euro</option>
+                        <option value="£" data-code="GBP">GBP (£) - British Pound</option>
+                        <option value="د.إ" data-code="AED">AED (د.إ) - UAE Dirham</option>
                     </select>
+
                 </div>
 
                 <div class="form-group">
